@@ -17,7 +17,6 @@ export const Header = ({ blockRef1, blockRef2, blockRef3, scrollTo, openModal })
                     <p onClick={() => scrollTo(blockRef1.current)}>О нас</p>
                     <p onClick={() => scrollTo(blockRef2.current)}>Услуги</p>
                     <p onClick={() => scrollTo(blockRef3.current)}>Отзывы</p>
-                    <button onClick={openModal}>Забронировать</button>
                 </div>
                 <div className={s.responsibleBtns}>
                     <input

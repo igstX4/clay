@@ -22,7 +22,6 @@ const BurgerMenu = ({ openModal, isOpened, setValue, blockRef1, blockRef2, block
             scrollTo(blockRef3.current)
             setValue(false)
           }}>Отзывы</div>
-          <button onClick={openModal}>Забронировать</button>
         </div>
         <div>
           <Footer />

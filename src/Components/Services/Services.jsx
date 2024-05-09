@@ -7,7 +7,7 @@ import fourthImg from '../../assets/0.png'
 import { HeartRotate } from '../Works/Svgs'
 import { HeartIcon } from './Svgs'
 
-const Services = ({blockRef2, setIsOpened}) => {
+const Services = ({blockRef2, setIsOpened, setActiveProduct}) => {
     return (
         <div className={style.serviceContainer} ref={blockRef2}>
             <div className={style.heartAbosolute}>
@@ -41,7 +41,11 @@ const Services = ({blockRef2, setIsOpened}) => {
                             <p>1,5 часа/ 1499 ₽</p>
                         </div>
                         <div className={style.btnContainer}>
-                            <button onClick={() => setIsOpened(true)}>Забронировать</button>
+                            <button onClick={
+                                () => {
+                                    setActiveProduct({name: "Мастер-класс на одного", price: "1,5 часа/ 1499 ₽"})
+                                    setIsOpened(true)
+                            }}>Забронировать</button>
                         </div>
                     </div>
                 </div>
@@ -73,7 +77,10 @@ const Services = ({blockRef2, setIsOpened}) => {
                             <p>2 часа/ 2990 ₽</p>
                         </div>
                         <div className={style.btnContainer}>
-                            <button onClick={() => setIsOpened(true)}>Забронировать</button>
+                            <button onClick={() => {
+                                setIsOpened(true)
+                                setActiveProduct({name: "Мастер-класс для двоих", price: "2 часа/ 2990 ₽"})
+                                }}>Забронировать</button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +108,11 @@ const Services = ({blockRef2, setIsOpened}) => {
                             <p>4 часа/ 4990 ₽</p>
                         </div>
                         <div className={style.btnContainer}>
-                            <button onClick={() => setIsOpened(true)}>Забронировать</button>
+                            <button onClick={() => {
+                                setIsOpened(true)
+                                setActiveProduct({name: "Подарочный сертификат", price: "4 часа/ 4990 ₽"})
+                            }
+                                }>Забронировать</button>
                         </div>
                     </div>
                 </div>
@@ -129,7 +140,10 @@ const Services = ({blockRef2, setIsOpened}) => {
                             <p>1 месяц/ 6990 ₽</p>
                         </div>
                         <div className={style.btnContainer}>
-                            <button onClick={() => setIsOpened(true)}>Забронировать</button>
+                            <button onClick={() => {
+                                setIsOpened(true)
+                                setActiveProduct({name: "Абонемент на 1 месяц", price: "1 месяц/ 6990 ₽"})
+                                }}>Забронировать</button>
                         </div>
                     </div>
                 </div>

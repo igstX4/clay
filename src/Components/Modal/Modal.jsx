@@ -1,17 +1,22 @@
 import Datepicker from '../DatePicker/DatePicker'
 import s from './Modal.module.scss'
+import axios from 'axios'
 import { Select, Space } from 'antd';
 import { Cross } from './Svgs';
 import { useForm } from 'react-hook-form';
 
-export const Modal = ({ isOpened, setOpened }) => {
+export const Modal = ({ isOpened, setOpened, activeProduct }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleChange = (value) => {
         console.log(`selected ${value}`);
     };
     const onSubmit = (data) => {
-        console.log(data); 
+        try {
+            axios.post('API_IP', {fullName: data.fullName, phoneNumber: data.phoneNumber, product: activeProduct})
+        } catch (e) {
+            console.log(e)
+        }
       };
     return (
         <div onClick={setOpened} className={`${s.modalBg} ${isOpened ? s.active : ""}`}>

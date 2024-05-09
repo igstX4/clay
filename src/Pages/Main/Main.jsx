@@ -19,16 +19,17 @@ const Main = () => {
     const blockRef3 = useRef(null)
     const scrollTo = (target) => gsap.to(window, { duration: 1, scrollTo: target })
     const [isOpened, setIsOpened] = useState(false)
+    const [activeProduct, setActiveProduct] = useState()
     return (
         <>
-            <Modal isOpened={isOpened} setOpened={() => setIsOpened(!isOpened)}/>
+            <Modal activeProduct={activeProduct}  isOpened={isOpened} setOpened={() => setIsOpened(!isOpened)}/>
             <Header openModal={() => setIsOpened(true)} blockRef1={blockRef1} blockRef2={blockRef2} blockRef3={blockRef3} scrollTo={scrollTo} />
             <div className={s.mainContainer}>
                 <div className={s.row}>
                     <img className={s.img} src={img} alt='/' />
                     <StagesOfWork blockRef1={blockRef1} />
                     <MasterClass />
-                    <Services blockRef2={blockRef2} setIsOpened={setIsOpened} />
+                    <Services setActiveProduct={setActiveProduct} blockRef2={blockRef2} setIsOpened={setIsOpened} />
                     <Works />
                     <Reviews blockRef3={blockRef3} />
                     <Footer />
