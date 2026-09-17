@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Clay — pottery studio landing page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![GSAP](https://img.shields.io/badge/GSAP-3-88CE02?logo=greensock&logoColor=white)
+![Ant Design](https://img.shields.io/badge/Ant_Design-5-0170FE?logo=antdesign&logoColor=white)
+![Sass](https://img.shields.io/badge/Sass-CF649A?logo=sass&logoColor=white)
 
-## Available Scripts
+A one-page marketing site for a pottery studio: it introduces the workshop,
+shows the portfolio and the reviews, lists the workshop tariffs and takes
+bookings through a modal form. Built as a single React page with smooth
+section-to-section scrolling.
 
-In the project directory, you can run:
+## Sections
 
-### `npm start`
+```
+Header (logo + nav + burger menu on mobile)
+Hero image
+StagesOfWork   — how a session goes, three illustrated steps
+MasterClass    — photo mosaic of the studio
+Services       — four tariffs, each with a "Забронировать" button
+Works          — portfolio gallery
+Reviews        — customer photos and quotes
+Footer
+Booking modal  — opened from the header or from any tariff card
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Tariff | Details |
+|--------|---------|
+| Мастер-класс на одного | 1,5 часа / 1499 ₽ |
+| Мастер-класс для двоих | 2 часа / 2990 ₽ |
+| Подарочный сертификат | 4 часа / 4990 ₽ |
+| Абонемент на 1 месяц | 1 месяц / 6990 ₽ |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Picking a tariff does two things at once: it stores the chosen product in the
+page state and opens the modal, so the form already knows what is being booked.
 
-### `npm test`
+## Interesting pieces
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Smooth anchor navigation.** `Main.jsx` holds a ref per scrollable block and
+hands them to the header. Clicking a nav item calls
 
-### `npm run build`
+```js
+gsap.registerPlugin(ScrollToPlugin);
+const scrollTo = (target) => gsap.to(window, { duration: 1, scrollTo: target });
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+which animates the viewport to the block — `scroll-behavior: smooth` would not
+give the same control over duration and easing.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**A hand-written date picker.** `Components/DatePicker` renders the current week
+(Пн–Вс) with prev/next arrows, closes on an outside click (a `mousedown` listener
+registered in `useEffect`) and greys out days that are already in the past, so an
+invalid booking date cannot be picked in the first place. Keeping it in-house
+avoids shipping a calendar library for a single week view.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Form validation.** The booking modal uses React Hook Form with required rules
+on name, phone and e-mail, so errors are shown per field without wiring a
+controlled input for each one.
 
-### `npm run eject`
+## Project structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+src/
+├── Components/
+│   ├── BurgerMenu/       mobile navigation
+│   ├── DatePicker/       weekly picker + its own SCSS
+│   ├── Footer/  Header/  layout chrome, inline SVG icons in Svgs.jsx
+│   ├── MasterClass/      studio photo mosaic
+│   ├── Modal/            booking form
+│   ├── Reviews/  Works/  social proof and portfolio galleries
+│   ├── Services/         tariffs and their booking buttons
+│   └── StagesOfWork/     "how it works" steps
+├── Pages/Main/Main.jsx   the page: sections, refs, scroll helper, modal state
+├── assets/               photos and decorative SVGs
+├── App.js                renders <Main />
+└── index.js  index.css   CRA entry point
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Each component keeps its own SCSS module (plus two plain `.scss` files for the
+header and the picker) and exports inline SVG icons from a neighbouring
+`Svgs.jsx` instead of pulling an icon font.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Tech stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+React 18 (Create React App) · GSAP 3 + ScrollToPlugin · Ant Design 5 (the time
+slot `Select`) · React Hook Form · axios · SCSS modules · Sass.
 
-## Learn More
+## Running it
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm install
+npm start      # http://localhost:3000
+npm run build  # production bundle in ./build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The page is fully static apart from the booking request, so the build is a plain
+folder of assets and can be hosted anywhere.
 
-### Code Splitting
+## Notes / where to take it next
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- The submit handler still posts to a placeholder:
 
-### Analyzing the Bundle Size
+  ```js
+  axios.post('API_IP', { fullName, phoneNumber, product });
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  Point it at a real endpoint (and read the response) to make the booking flow
+  end-to-end; today the form validates and then silently does nothing.
+- The modal heading is a fixed string while the payload carries the selected
+  tariff — the heading should use the same `activeProduct` value.
+- `react-datepicker` and `react-select` are declared in `package.json` but no
+  longer imported: the picker is custom and `antd` covers the selects. Removing
+  them would slim the dependency list.
+- The chosen date and time live inside their components, so they are not part of
+  the submitted payload yet — lifting them into the modal state is the first step
+  to a complete request.
